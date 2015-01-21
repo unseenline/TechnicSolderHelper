@@ -116,6 +116,7 @@ namespace TechnicSolderHelper
                     }
                 }
             }
+            authorString = authorString.Replace("'", "''");//Sanatize ' as thats used for SQL strings
             _ownPermsSqLhelper.AddAuthor(mod.Modid, authorString);
             return authorString;
         }
@@ -128,8 +129,11 @@ namespace TechnicSolderHelper
             _ftbPermissionList = Path.Combine(_outputDirectory, "FTB Permission List.txt");
             _technicPermissionList = Path.Combine(_outputDirectory, "Technic Permission List.txt");
             //_sqlCommandPath = Path.Combine(_outputDirectory, "commands.sql");
-            _currentMcVersion = MCversion.SelectedItem.ToString();
-
+            if (string.IsNullOrEmpty(MCversion.Text)) {
+                _currentMcVersion = null;
+            } else {
+                _currentMcVersion = MCversion.SelectedItem.ToString();
+            };
             Environment.CurrentDirectory = Globalfunctions.IsUnix() ? "/" : "C:\\";
             if (!Directory.Exists(InputFolder.Text))
             {
